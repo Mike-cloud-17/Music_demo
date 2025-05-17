@@ -39,10 +39,14 @@ _GENRE = {
 
 # VK-iframe — заполните своими ссылками
 _VK_OVERRIDE: dict[str, str] = {
-    "queen bohemian rhapsody":     "https://vkvideo.ru/video-227373631_456239954",
-    "ac/dc back in black":         "https://vkvideo.ru/video-227373812_456239180",
-    "michael jackson billie jean": "https://vkvideo.ru/video-137961550_456241080",
-    "madonna like a prayer":       "https://vkvideo.ru/video-1625031_456239651",
+    "queen bohemian rhapsody":
+        "https://vk.com/video_ext.php?oid=-227373631&id=456239954&hd=0",
+    "ac/dc back in black":
+        "https://vk.com/video_ext.php?oid=-227373812&id=456239180&hd=0",
+    "michael jackson billie jean":
+        "https://vk.com/video_ext.php?oid=137961550&id=456241080&hd=0",
+    "madonna like a prayer":
+        "https://vk.com/video_ext.php?oid=1625031&id=456239651&hd=0",
 }
 
 DEFAULT_COVER = "https://i.imgur.com/Z8l0XUJ.jpeg"
