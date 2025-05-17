@@ -16,12 +16,26 @@
 
       <!-- Spotify preview -->
       {% if item.sp_url %}
-        <div class="ratio ratio-16x9 mt-3">
-          <iframe id="sp_iframe" src="{{ item.sp_url }}" allow="autoplay; clipboard-write"></iframe>
+        <div class="ratio ratio-16x9 mt-3 neumorph player-container spotify-container">
+          <iframe id="sp_iframe"
+                  src="{{ item.sp_url }}"
+                  allow="autoplay; clipboard-write"></iframe>
         </div>
       {% else %}
         <p class="text-warning mt-3">Spotify preview unavailable</p>
       {% endif %}
+
+      <!-- VK Video -->
+      {% if item.vk_url %}
+        <div class="ratio ratio-16x9 mt-3 neumorph player-container vk-container">
+          <iframe id="vk_iframe"
+                  src="{{ item.vk_url }}"
+                  allowfullscreen></iframe>
+        </div>
+      {% else %}
+        <p class="text-warning mt-3">VK clip unavailable</p>
+      {% endif %}
+
 
       <!-- VK Video -->
       {% if item.vk_url %}
