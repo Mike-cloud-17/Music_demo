@@ -10,6 +10,7 @@ body {
   background-color: #1c1e21;
   border: none;
   border-radius: 12px;
+  overflow: hidden;
 }
 
 /* убираем лишние белые края под контейнером ratio */
@@ -42,11 +43,24 @@ body {
   box-shadow: 5px 5px 15px #0009, -5px -5px 15px #ffffff05;
 }
 
-/* кнопки, уведомления и т.п. оставляем ваши */
-.glow      { box-shadow: 0 0 12px rgba(0,123,255,.5); }
-.glow-sm   { transition: box-shadow .3s; }
-.glow-sm:hover { box-shadow: 0 0 10px rgba(255,255,255,.4); }
+/* эффекты на кнопках */
+.glow {
+  box-shadow: 0 0 12px rgba(0,123,255,.5);
+}
+.glow-sm {
+  transition: box-shadow .3s;
+}
+.glow-sm:hover {
+  box-shadow: 0 0 10px rgba(255,255,255,.4);
+}
 
-.toast-success { --bs-toast-bg: #198754; }
-.toast-danger  { --bs-toast-bg: #dc3545; }
-.toast-info    { --bs-toast-bg: #0dcaf0; }
+/* стили для toasts */
+.toast-success {
+  --bs-toast-bg: #198754;
+}
+.toast-danger {
+  --bs-toast-bg: #dc3545;
+}
+.toast-info {
+  --bs-toast-bg: #0dcaf0;
+}
