@@ -1,111 +1,95 @@
+# backend/logic.py
 """
-Мини-рекомендер для демо-MVP.
-
-* Достаём превью-плеер из **Spotify** (если нашли трек)
-* Видео-клип — из YouTube.
+Мини-рекомендер для демо-MVP  
+• превью-плеер — Spotify  
+• клип       — VK Video (URL-ы пока пустые — добавите сами)
 """
-
 from __future__ import annotations
-import random, urllib.parse as up, requests
+import random
 from dataclasses import dataclass
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-
-# ──────────────────────────────
-# 1) API-ключи / константы
-# ──────────────────────────────
-YT_KEY           = "AIzaSyAUuTaeOfmyd2SSK5NGYjUg116IcQDGFXU"
-SPOTIFY_ID       = "6747cde4ba754852b835b7f92e781a49"
-SPOTIFY_SECRET   = "0b9eca81195942788c6cca1343a096f2"
+# ─── 1. CONSTANTS ───────────────────────────────────────
+SPOTIFY_ID     = "6747cde4ba754852b835b7f92e781a49"
+SPOTIFY_SECRET = "0b9eca81195942788c6cca1343a096f2"
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(
         client_id=SPOTIFY_ID,
-        client_secret=SPOTIFY_SECRET
+        client_secret=SPOTIFY_SECRET,
     )
 )
 
+# 4 трека: первые два — Rock, 3-й — Pop, 4-й — Pop
 SEEDS = [
-    "Never Gonna Give You Up Rick Astley",
-    "Daft Punk Harder Better Faster Stronger",
-    "Nirvana Smells Like Teen Spirit",
-    "Billie Eilish bad guy",
-    "Coldplay Viva La Vida",
     "Queen Bohemian Rhapsody",
-    "A-ha Take On Me",
-    "Avicii Wake Me Up",
-    "Linkin Park Numb",
-    "ABBA Dancing Queen",
+    "AC/DC Back in Black",
+    "Michael Jackson Billie Jean",
+    "Madonna Like a Prayer",
 ]
 
-DEFAULT_COVER = "https://i.imgur.com/Z8l0XUJ.jpeg"
+# принудительные жанры, чтобы контролировать порядок
+_GENRE = {
+    "queen bohemian rhapsody":    "Rock",
+    "ac/dc back in black":        "Rock",
+    "michael jackson billie jean":"Pop",
+    "madonna like a prayer":      "Pop",
+}
 
+# VK-iframe — заполните своими ссылками
+_VK_OVERRIDE: dict[str, str] = {
+    "queen bohemian rhapsody":     "https://vkvideo.ru/video-227373631_456239954",
+    "ac/dc back in black":         "https://vkvideo.ru/video-227373812_456239180",
+    "michael jackson billie jean": "https://vkvideo.ru/video-137961550_456241080",
+    "madonna like a prayer":       "https://vkvideo.ru/video-1625031_456239651",
+}
+
+DEFAULT_COVER = "https://i.imgur.com/Z8l0XUJ.jpeg"
 
 @dataclass
 class Track:
     title:  str
     artist: str
     genre:  str
-    sp_url: str | None   # Spotify iframe
-    yt_url: str | None   # YouTube iframe
+    sp_url: str | None
+    vk_url: str | None
     cover:  str
 
-
-# ──────────────────────────────
-# 2) util-функции к API
-# ──────────────────────────────
+# ─── 2. helpers ─────────────────────────────────────────
 def _spotify(query: str) -> tuple[str, str | None, str]:
-    """
-    Ищет трек → (title, iframe-src | None, cover_url)
-    """
+    """Spotify search → (title, iframe|None, cover)"""
     try:
-        res = sp.search(q=query, type="track", limit=1)
-        if not res["tracks"]["items"]:
+        items = sp.search(q=query, type="track", limit=1)["tracks"]["items"]
+        if not items:
             return query, None, DEFAULT_COVER
-        trk  = res["tracks"]["items"][0]
-        tid  = trk["id"]
-        cover = trk["album"]["images"][0]["url"] if trk["album"]["images"] else DEFAULT_COVER
+        trk    = items[0]
+        tid    = trk["id"]
+        cover  = (trk["album"]["images"][0]["url"]
+                  if trk["album"]["images"] else DEFAULT_COVER)
         iframe = f"https://open.spotify.com/embed/track/{tid}?utm_source=generator"
         return trk["name"], iframe, cover
     except Exception as e:
         print("Spotify error:", e)
         return query, None, DEFAULT_COVER
 
+def _vk(query: str) -> str | None:
+    return _VK_OVERRIDE.get(query.lower())
 
-def _youtube(query: str, region="US") -> str | None:
-    api = (
-        "https://www.googleapis.com/youtube/v3/search?"
-        "part=snippet&type=video&videoEmbeddable=true&maxResults=5"
-        f"&q={up.quote(query)}&key={YT_KEY}&regionCode={region}"
-    )
-    try:
-        items = requests.get(api, timeout=8).json().get("items", [])
-        for it in items:
-            vid = it["id"]["videoId"]
-            return f"https://www.youtube.com/embed/{vid}"
-        return None
-    except Exception as e:
-        print("YouTube error:", e)
-        return None
-
-
-# ──────────────────────────────
-# 3) «Модель»-карусель
-# ──────────────────────────────
+# ─── 3. Recommender ─────────────────────────────────────
 class RealRecommender:
     def __init__(self) -> None:
         self.catalog = [self._make(seed) for seed in SEEDS]
-        random.shuffle(self.catalog)
-        self.pos = 0
+        self.pos = 0  # порядок фиксированный, без shuffle
 
     def _make(self, seed: str) -> Track:
-        title, sp_src, cover = _spotify(seed)
-        yt_src = _youtube(seed)
-        artist = seed.split()[-1]
-        return Track(title, artist, "Pop/Rock", sp_src, yt_src, cover)
+        title, sp_url, cover = _spotify(seed)
+        vk_url               = _vk(seed)
+        genre                = _GENRE[seed.lower()]
+        artist               = seed.split(None, 1)[0]
+        return Track(title, artist, genre, sp_url, vk_url, cover)
 
-    # — публичные —
+    # — публичные —
     def _cur(self) -> Track:
         return self.catalog[self.pos]
 
@@ -113,12 +97,18 @@ class RealRecommender:
         self.pos = (self.pos + 1) % len(self.catalog)
         return self._cur()
 
-    def next_track(self) -> dict:      # для AJAX
-        t = self.next()
-        return t.__dict__
+    def next_track(self) -> dict:
+        return self.next().__dict__
 
-    def by_genre(self, genre: str) -> dict:
-        return self.next_track()
+    def by_genre(self) -> dict:
+        # следующий трек того же жанра, что и текущий
+        current_genre = self._cur().genre
+        start = self.pos
+        while True:
+            self.next()
+            if self._cur().genre == current_genre or self.pos == start:
+                break
+        return self._cur().__dict__
 
-    def like(self) -> None:     pass
-    def dislike(self) -> None:  pass
+    def like(self):    pass
+    def dislike(self): pass

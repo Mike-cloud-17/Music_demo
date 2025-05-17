@@ -1,24 +1,82 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-8 col-lg-6">
-    <div class="glass p-4 rounded-4 shadow-lg fade-in">
-      <h2 class="mb-4 text-center fw-bold">🚀 Start your journey</h2>
-      <form method="post" class="row g-4">
+  <div class="col-md-6">
+    <div class="glass p-5 rounded-4 shadow-lg fade-in">
+      <h2 class="mb-4 text-center">🚀 Start your journey</h2>
+      <form method="post" class="row g-3">
+
+        <!-- ФИО -->
         <div class="col-12">
-          <label class="form-label">City</label>
-          <input name="city" class="form-control form-control-lg" placeholder="e.g. Berlin" required>
+          <label class="form-label">Full Name</label>
+          <input name="fullname" type="text"
+                 class="form-control form-control-lg"
+                 placeholder="e.g. Ivan Petrovich Ivanov"
+                 required>
         </div>
-        <div class="col-12">
+
+        <!-- Город -->
+        <div class="col-6">
+          <label class="form-label">City</label>
+          <input name="city" type="text"
+                 class="form-control"
+                 placeholder="e.g. Moscow"
+                 required>
+        </div>
+
+        <!-- Возраст -->
+        <div class="col-3">
+          <label class="form-label">Age</label>
+          <input name="age" type="number" min="1" max="120"
+                 class="form-control"
+                 placeholder="e.g. 30"
+                 required>
+        </div>
+
+        <!-- Пол -->
+        <div class="col-3">
           <label class="form-label">Gender</label>
-          <select name="gender" class="form-select form-select-lg" required>
+          <select name="gender" class="form-select" required>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other / N/A</option>
           </select>
         </div>
+
+        <hr class="my-4"/>
+
+        <!-- Registered via -->
+        <div class="col-6">
+          <label class="form-label">Registered via</label>
+          <input name="registered_via" type="text"
+                 class="form-control"
+                 value="{{ registered_via }}"
+                 readonly>
+        </div>
+
+        <!-- Registration init time -->
+        <div class="col-6">
+          <label class="form-label">Registration time (UTC)</label>
+          <input name="registration_init_time" type="text"
+                 class="form-control"
+                 value="{{ registration_init_time }}"
+                 readonly>
+        </div>
+
+        <!-- Expiration date -->
+        <div class="col-12">
+          <label class="form-label">Expiration date (UTC)</label>
+          <input name="expiration_date" type="text"
+                 class="form-control"
+                 value="{{ expiration_date }}"
+                 readonly>
+        </div>
+
+        <!-- Кнопка Go -->
         <div class="col-12 text-center pt-3">
-          <button class="btn btn-primary btn-lg px-5 glow">Let’s Go! <i class="bi bi-arrow-right-circle ms-2"></i></button>
+          <button class="btn btn-primary btn-lg px-5 glow">
+            Let’s Go! <i class="bi bi-arrow-right-circle ms-2"></i>
+          </button>
         </div>
       </form>
     </div>
