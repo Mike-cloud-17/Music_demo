@@ -1,56 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row justify-content-center mt-4">
-  <div class="col-lg-8">
-    <div class="card p-4">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8">
 
-      <!-- Заголовок и кнопка ‹Next› -->
+    <div class="card">
+      <!-- заголовок и кнопка next -->
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h3 id="title">{{ item.title }}</h3>
           <small id="artist" class="text-muted">{{ item.artist }}</small>
           <span id="genre" class="badge bg-primary ms-2">{{ item.genre }}</span>
         </div>
-        <button id="btn_next" class="btn btn-outline-light rounded-circle">
+        <button id="btn_next" class="btn btn-outline-light glow-sm">
           <i class="bi bi-skip-end-fill fs-4"></i>
         </button>
       </div>
 
       <!-- Spotify preview -->
       {% if item.sp_url %}
-      <div class="player-container">
-        <iframe
-          id="sp_iframe"
-          src="{{ item.sp_url }}"
-          allow="autoplay; clipboard-write"
-        ></iframe>
-      </div>
+        <div class="player-container neumorph">
+          <iframe
+            id="sp_iframe"
+            src="{{ item.sp_url }}"
+            allow="autoplay; clipboard-write"
+            allowtransparency="true"
+          ></iframe>
+        </div>
       {% else %}
-      <p class="text-warning mt-3">🔇 Spotify preview unavailable</p>
+        <p class="text-warning mt-3">Spotify preview unavailable</p>
       {% endif %}
 
-      <!-- VK Video preview -->
+      <!-- VK Video -->
       {% if item.vk_url %}
-      <div class="player-container">
-        <iframe
-          id="vk_iframe"
-          src="{{ item.vk_url }}"
-          allowfullscreen
-        ></iframe>
-      </div>
+        <div class="player-container neumorph">
+          <iframe
+            id="vk_iframe"
+            src="{{ item.vk_url }}"
+            allowfullscreen
+          ></iframe>
+        </div>
       {% else %}
-      <p class="text-warning mt-3">🎞️ VK clip unavailable</p>
+        <p class="text-warning mt-3">VK clip unavailable</p>
       {% endif %}
 
-      <!-- Кнопки управления -->
+      <!-- кнопки лайк/дизлайк/по жанру -->
       <div class="d-flex gap-2 mt-4">
-        <button id="btn_like" class="btn btn-success flex-fill">👍 Like</button>
-        <button id="btn_dislike" class="btn btn-danger flex-fill">👎 Dislike</button>
-        <button id="btn_genre" class="btn btn-warning flex-fill">✨ By genre</button>
+        <button id="btn_like"    class="btn btn-success flex-fill">👍 Like</button>
+        <button id="btn_dislike" class="btn btn-danger  flex-fill">👎 Dislike</button>
+        <button id="btn_genre"   class="btn btn-warning flex-fill">✨ By genre</button>
       </div>
-
     </div>
+
   </div>
 </div>
 {% endblock %}

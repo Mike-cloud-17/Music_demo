@@ -3,64 +3,57 @@ body {
   background: radial-gradient(circle at 25% 20%, #343a40 0%, #000 80%);
   min-height: 100vh;
   color: #f1f1f1;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 
-/* делаем карточку чёрной целиком */
+/* сама карточка */
 .card {
   background-color: #1c1e21;
   border: none;
   border-radius: 12px;
-  overflow: hidden;
+  padding: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* убираем лишние белые края под контейнером ratio */
+/* контейнер для любого плеера (Spotify или VK) */
 .player-container {
-  background-color: #000;
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect */
+  background: #000;
   border-radius: 8px;
   overflow: hidden;
   margin-top: 1rem;
 }
 
-/* делаем сам iframe растянутым по контейнеру */
-.player-container .ratio-16x9 {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
-}
-
-.player-container .ratio-16x9 iframe {
+/* iframe растягиваем на весь контейнер */
+.player-container iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   border: 0;
-  background-color: #000;
 }
 
-/* neumorph тень, если нужна */
+/* лёгкая тень по краям (необязательно) */
 .neumorph {
-  box-shadow: 5px 5px 15px #0009, -5px -5px 15px #ffffff05;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.6),
+              -5px -5px 15px rgba(255,255,255,0.05);
 }
 
 /* эффекты на кнопках */
 .glow {
-  box-shadow: 0 0 12px rgba(0,123,255,.5);
+  box-shadow: 0 0 12px rgba(0,123,255,0.5);
 }
 .glow-sm {
-  transition: box-shadow .3s;
+  transition: box-shadow 0.3s;
 }
 .glow-sm:hover {
-  box-shadow: 0 0 10px rgba(255,255,255,.4);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
 }
 
-/* стили для toasts */
-.toast-success {
-  --bs-toast-bg: #198754;
-}
-.toast-danger {
-  --bs-toast-bg: #dc3545;
-}
-.toast-info {
-  --bs-toast-bg: #0dcaf0;
-}
+/* стили для toast-уведомлений */
+.toast-success { --bs-toast-bg: #198754; }
+.toast-danger  { --bs-toast-bg: #dc3545; }
+.toast-info    { --bs-toast-bg: #0dcaf0; }
