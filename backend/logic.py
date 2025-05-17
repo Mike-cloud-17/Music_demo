@@ -44,9 +44,9 @@ _VK_OVERRIDE: dict[str, str] = {
     "ac/dc back in black":
         "https://vk.com/video_ext.php?oid=-227373812&id=456239180&hd=0",
     "michael jackson billie jean":
-        "https://vk.com/video_ext.php?oid=137961550&id=456241080&hd=0",
+        "https://vkvideo.ru/video_ext.php?oid=-137961550&id=456241080&hd=2&autoplay=1",
     "madonna like a prayer":
-        "https://vk.com/video_ext.php?oid=1625031&id=456239651&hd=0",
+        "https://vkvideo.ru/video_ext.php?oid=-16980751&id=456245638&hd=1&autoplay=1",
 }
 
 DEFAULT_COVER = "https://i.imgur.com/Z8l0XUJ.jpeg"
