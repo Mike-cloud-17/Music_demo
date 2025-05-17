@@ -2,55 +2,53 @@
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-lg-8">
-    <div class="card p-4">
+    <div class="card p-4 neumorph">
+
+      <!-- заголовок и кнопка Next -->
       <div class="d-flex justify-content-between align-items-start">
         <div>
           <h3 id="title">{{ item.title }}</h3>
           <small id="artist" class="text-muted">{{ item.artist }}</small>
           <span id="genre" class="badge bg-primary ms-2">{{ item.genre }}</span>
         </div>
-        <button id="btn_next" class="btn btn-outline-secondary">
-          <i class="bi bi-skip-end-fill"></i>
+        <button id="btn_next" class="btn btn-outline-light rounded-circle glow-sm">
+          <i class="bi bi-skip-end-fill fs-4"></i>
         </button>
       </div>
 
       <!-- Spotify preview -->
       {% if item.sp_url %}
-        <div class="ratio ratio-16x9 mt-3 neumorph player-container spotify-container">
-          <iframe id="sp_iframe"
-                  src="{{ item.sp_url }}"
-                  allow="autoplay; clipboard-write"></iframe>
+        <div class="player-container">
+          <div class="ratio ratio-16x9">
+            <iframe id="sp_iframe"
+                    src="{{ item.sp_url }}"
+                    allow="autoplay; clipboard-write"></iframe>
+          </div>
         </div>
       {% else %}
-        <p class="text-warning mt-3">Spotify preview unavailable</p>
+        <p class="text-warning mt-3">🔇 Spotify preview unavailable</p>
       {% endif %}
 
       <!-- VK Video -->
       {% if item.vk_url %}
-        <div class="ratio ratio-16x9 mt-3 neumorph player-container vk-container">
-          <iframe id="vk_iframe"
-                  src="{{ item.vk_url }}"
-                  allowfullscreen></iframe>
+        <div class="player-container">
+          <div class="ratio ratio-16x9">
+            <iframe id="vk_iframe"
+                    src="{{ item.vk_url }}"
+                    allowfullscreen></iframe>
+          </div>
         </div>
       {% else %}
-        <p class="text-warning mt-3">VK clip unavailable</p>
+        <p class="text-warning mt-3">🎞️ VK clip unavailable</p>
       {% endif %}
 
-
-      <!-- VK Video -->
-      {% if item.vk_url %}
-        <div class="ratio ratio-16x9 mt-3">
-          <iframe id="vk_iframe" src="{{ item.vk_url }}" allowfullscreen></iframe>
-        </div>
-      {% else %}
-        <p class="text-warning mt-3">VK clip unavailable</p>
-      {% endif %}
-
-      <div class="d-flex gap-2 mt-3">
-        <button id="btn_like" class="btn btn-success flex-fill">👍 Like</button>
-        <button id="btn_dislike" class="btn btn-danger flex-fill">👎 Dislike</button>
-        <button id="btn_genre" class="btn btn-warning flex-fill">✨ By genre</button>
+      <!-- кнопки -->
+      <div class="d-flex gap-2 mt-4">
+        <button id="btn_like"    class="btn btn-success flex-fill">👍 Like</button>
+        <button id="btn_dislike" class="btn btn-danger  flex-fill">👎 Dislike</button>
+        <button id="btn_genre"   class="btn btn-warning flex-fill">✨ By genre</button>
       </div>
+
     </div>
   </div>
 </div>

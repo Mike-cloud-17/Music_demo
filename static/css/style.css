@@ -1,60 +1,52 @@
 /* --------- global ---------- */
 body {
-    background: radial-gradient(circle at 25% 20%, #343a40 0%, #000 80%);
-    min-height: 100vh;
-  }
-  
-  /* glass effect */
-  .glass {
-    backdrop-filter: blur(14px) saturate(140%);
-    background: rgba(33, 37, 41, 0.55);
-    border: 1px solid rgba(255, 255, 255, .06);
-  }
-  
-  .neumorph {
-    box-shadow: 5px 5px 15px #0009, -5px -5px 15px #ffffff05;
-  }
-  
-  /* fade-in animation */
-  .fade-in { animation: fadeIn .6s ease; }
-  @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1} }
-  
-  .glow      { box-shadow: 0 0 12px rgba(0,123,255,.5);}
-  .glow-sm   { transition: box-shadow .3s;}
-  .glow-sm:hover { box-shadow: 0 0 10px rgba(255,255,255,.4); }
-  
-  .toast-success { --bs-toast-bg: #198754; }
-  .toast-danger  { --bs-toast-bg: #dc3545; }
-  
-
-  /* обертка плееров: чистый чёрный фон и убираем нижний «белый» полигон */
-.player-container {
-  background-color: #000;
-  overflow: hidden;
-  border-radius: 8px;
+  background: radial-gradient(circle at 25% 20%, #343a40 0%, #000 80%);
+  min-height: 100vh;
+  color: #f1f1f1;
 }
 
-/* сами iframe подгоняем под контейнер */
-.player-container iframe {
-  background-color: #000;
-  display: block;
-}
-
-/* если браузер при загрузке плеера рисует белый фон —
-   жёстко обрезаем его по высоте контейнера */
-.player-container .ratio-16x9 {
-  height: auto;
-  padding-bottom: 56.25%; /* сохраняем 16:9 */
-  position: relative;
-}
-.player-container .ratio-16x9 iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-}
-
-/* Optional: немного сузим белый отступ под контейнерами внизу */
+/* делаем карточку чёрной целиком */
 .card {
   background-color: #1c1e21;
   border: none;
+  border-radius: 12px;
 }
+
+/* убираем лишние белые края под контейнером ratio */
+.player-container {
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+/* делаем сам iframe растянутым по контейнеру */
+.player-container .ratio-16x9 {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+}
+
+.player-container .ratio-16x9 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background-color: #000;
+}
+
+/* neumorph тень, если нужна */
+.neumorph {
+  box-shadow: 5px 5px 15px #0009, -5px -5px 15px #ffffff05;
+}
+
+/* кнопки, уведомления и т.п. оставляем ваши */
+.glow      { box-shadow: 0 0 12px rgba(0,123,255,.5); }
+.glow-sm   { transition: box-shadow .3s; }
+.glow-sm:hover { box-shadow: 0 0 10px rgba(255,255,255,.4); }
+
+.toast-success { --bs-toast-bg: #198754; }
+.toast-danger  { --bs-toast-bg: #dc3545; }
+.toast-info    { --bs-toast-bg: #0dcaf0; }
