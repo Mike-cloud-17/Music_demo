@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="glass p-4 rounded-4 shadow-lg fade-in">
+
+      <div class="d-flex justify-content-between">
+        <div>
+          <h2 id="title"  class="m-0 fw-bold">{{ item.title }}</h2>
+          <small id="artist" class="text-muted">{{ item.artist }}</small>
+          <span  id="genre"  class="badge bg-primary ms-2">{{ item.genre }}</span>
+        </div>
+        <button id="btn_next" class="btn btn-outline-light rounded-circle glow-sm">
+          <i class="bi bi-skip-forward-fill fs-4"></i>
+        </button>
+      </div>
+
+      <!-- Spotify -->
+      {% if item.sp_url %}
+      <div class="ratio ratio-16x9 mt-4 neumorph">
+        <iframe id="sp_iframe" src="{{ item.sp_url }}" allow="autoplay; clipboard-write"></iframe>
+      </div>
+      {% else %}
+      <p class="text-warning mt-4">🔇 Spotify preview unavailable.</p>
+      {% endif %}
+
+      <!-- YouTube -->
+      {% if item.yt_url %}
+      <div class="ratio ratio-16x9 mt-4 neumorph">
+        <iframe id="yt_iframe" src="{{ item.yt_url }}" allowfullscreen></iframe>
+      </div>
+      {% else %}
+      <p class="text-warning">🎞️ No YouTube video found.</p>
+      {% endif %}
+
+      <!-- buttons -->
+      <div class="d-flex gap-3 mt-4">
+        <button id="btn_like"    class="btn btn-success flex-fill glow-sm"><i class="bi bi-hand-thumbs-up"></i></button>
+        <button id="btn_dislike" class="btn btn-danger  flex-fill glow-sm"><i class="bi bi-hand-thumbs-down"></i></button>
+        <button id="btn_genre"   class="btn btn-warning flex-fill glow-sm">By genre</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/player.js') }}"></script>
+{% endblock %}
